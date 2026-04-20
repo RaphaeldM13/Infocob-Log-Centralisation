@@ -1,3 +1,13 @@
+## 20/04/2026
+- mise en place d'adaptabilité
+- config du tri des logs
+
+## 17/04/2026
+- étude de docs
+
+## 16/04/2026
+- Résolution d'erreurs
+
 ## 15/04/2026
 - Fin de la documentation
 
