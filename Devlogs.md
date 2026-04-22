@@ -1,3 +1,6 @@
+## 21/04/2026
+- config label
+
 ## 20/04/2026
 - mise en place d'adaptabilité
 - config du tri des logs
