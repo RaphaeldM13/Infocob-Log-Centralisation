@@ -57,7 +57,7 @@ loki.process "apache_labels" {
 
 loki.write "loki" {
   endpoint {
-    url       = "http://192.168.7.49:3100/loki/api/v1/push"
+    url       = "http://<IP_HOST>:3100/loki/api/v1/push"
     tenant_id = "tenant1"
   }
 }
