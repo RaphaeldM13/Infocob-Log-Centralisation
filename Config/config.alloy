@@ -6,35 +6,58 @@ logging {
 }
 
 local.file_match "apache_logs" {
-  path_targets = [{
-    __path__ = "/var/log/apache2/*.log",
-  }]
+  path_targets = [
+    { __path__ = "/var/log/apache2/*.log" },
+    { __path__ = "/var/log/httpd/*.log" },
+    { __path__ = "/etc/httpd/logs/*.log" },
+    { __path__ = "C:\\Apache\\logs\\*.log" },
+    { __path__ = "C:\\Apache24\\logs\\*.log" },
+  ]
   sync_period = "5s"
 }
-loki.process "apache_labels" {
-  forward_to = [loki.write.loki.receiver]
 
-  stage.static_labels {
-    values = {
-      job  = "access",
-      hostname = "apache-server-5",
-    }
-  }
-}
-
-// Lecture des fichiers
-loki.source.file "apache_scrape" {
+loki.source.file "apache" {
   targets       = local.file_match.apache_logs.targets
   forward_to    = [loki.process.apache_labels.receiver]
   tail_from_end = true
 }
 
-// Envoi vers Loki
-loki.write "loki" {
-  endpoint {
-    url       = "http://192.168.7.98:3100/loki/api/v1/push"
-    tenant_id = "tenant1"
+loki.process "apache_labels" {
+  forward_to = [loki.write.loki.receiver]
+
+  stage.regex {
+    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>\d+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_age>
+  }
+
+  stage.template {
+    source = "http_class"
+    template = "{{ if eq (.status | substr 0 1) \"2\" }}success{{ else if eq (.status | substr 0 1) \"4\" }}client_error{{ else if eq (.status | substr 0 1) \"5\" }}server_error{{ else }}other{{ end }}"
+  }
+
+  stage.labels {
+    values = {
+      status = "status",
+      method = "method",
+      path   = "path",
+      protocol = "protocol",
+      http_class = "http_class",
+      //http_class = "{{ if eq (index . \"status\" 0) \"2\" }}success{{ else if eq (index . \"status\" 0) \"4\" }}client_error{{ else if eq (index . \"status\" 0) \"5\" }}server_error{{ else }}other{{ end }}",
+    }
+  }
+  stage.static_labels {
+    values = {
+      os = constants.os,
+      hostname = constants.hostname,
+      architecture = constants.arch,
+      version = constants.version,
+      source = "apache",
+    }
   }
 }
 
-
+loki.write "loki" {
+  endpoint {
+    url       = "http://192.168.7.49:3100/loki/api/v1/push"
+    tenant_id = "tenant1"
+  }
+}
