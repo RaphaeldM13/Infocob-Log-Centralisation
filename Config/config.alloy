@@ -26,7 +26,7 @@ loki.process "apache_labels" {
   forward_to = [loki.write.loki.receiver]
 
   stage.regex {
-    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>\d+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
+    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>[-\d]+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
   }
 
   stage.template {
