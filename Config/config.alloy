@@ -26,7 +26,7 @@ loki.process "apache_labels" {
   forward_to = [loki.write.loki.receiver]
 
   stage.regex {
-    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>\d+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_age>
+    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>\d+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
   }
 
   stage.template {
@@ -44,6 +44,7 @@ loki.process "apache_labels" {
       //http_class = "{{ if eq (index . \"status\" 0) \"2\" }}success{{ else if eq (index . \"status\" 0) \"4\" }}client_error{{ else if eq (index . \"status\" 0) \"5\" }}server_error{{ else }}other{{ end }}",
     }
   }
+
   stage.static_labels {
     values = {
       os = constants.os,
@@ -57,7 +58,7 @@ loki.process "apache_labels" {
 
 loki.write "loki" {
   endpoint {
-    url       = "http://<IP_HOST>:3100/loki/api/v1/push"
+    url       = "http://192.168.7.83:3100/loki/api/v1/push"
     tenant_id = "tenant1"
   }
 }
