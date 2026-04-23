@@ -31,7 +31,7 @@ loki.process "apache_labels" {
 
   stage.template {
     source = "http_class"
-    template = "{{ if eq (.status | substr 0 1) \"2\" }}success{{ else if eq (.status | substr 0 1) \"4\" }}client_error{{ else if eq (.status | substr 0 1) \"5\" }}server_error{{ else }}other{{ end }}"
+    template = "{{ if eq (.status | substr 0 1) \"2\" }}success{{else if eq (.status | substr 0 1) \"3\" }}redirect{{ else if eq (.status | substr 0 1) \"4\" }}client_error{{ else if eq (.status | substr 0 1)>
   }
 
   stage.labels {
@@ -41,7 +41,6 @@ loki.process "apache_labels" {
       path   = "path",
       protocol = "protocol",
       http_class = "http_class",
-      //http_class = "{{ if eq (index . \"status\" 0) \"2\" }}success{{ else if eq (index . \"status\" 0) \"4\" }}client_error{{ else if eq (index . \"status\" 0) \"5\" }}server_error{{ else }}other{{ end }}",
     }
   }
 
