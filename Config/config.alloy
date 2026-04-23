@@ -10,8 +10,8 @@ local.file_match "apache_logs" {
     { __path__ = "/var/log/apache2/*.log" },
     { __path__ = "/var/log/httpd/*.log" },
     { __path__ = "/etc/httpd/logs/*.log" },
-    { __path__ = "C:\\Apache\\logs\\*.log" },
-    { __path__ = "C:\\Apache24\\logs\\*.log" },
+    { __path__ = "C:\\Apache\\logs\\*_log" },
+    { __path__ = "C:\\Apache24\\logs\\*_log" },
   ]
   sync_period = "5s"
 }
