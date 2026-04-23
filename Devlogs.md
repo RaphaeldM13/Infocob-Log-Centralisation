@@ -1,3 +1,9 @@
+## 23/04/2026
+- adaptabilité fix
+
+## 22/04/2026
+- adaptabilité
+
 ## 21/04/2026
 - config label
 
