@@ -201,19 +201,19 @@ Grafana Alloy doit être déployé sur chaque machine source de logs. Il agit co
 
     ### Configuration d’Alloy
 
-Une fois Alloy installé, il doit être configuré à l’aide du fichier config.alloy fourni dans ce dépôt.
+    Une fois Alloy installé, il doit être configuré à l’aide du fichier config.alloy fourni dans ce dépôt.
 
-- Linux
-  Le fichier de configuration peut être récupéré directement via la commande suivante :
-  ```
-  sudo curl -o /etc/alloy/config.alloy https://raw.githubusercontent.com/RaphaeldM13/Infocob-Log-Centralization/refs/heads/main/Config/config.alloy
-  ```
-- Windows
-  Télécharger le fichier de configuration config.alloy depuis le dépôt, puis le placer dans le répertoire d’installation d’Alloy, généralement :
-  ```
-  %PROGRAMFILES%\GrafanaLabs\Alloy\
-  ```
-- docker
+    - Linux
+      Le fichier de configuration peut être récupéré directement via la commande suivante :
+      ```
+      sudo curl -o /etc/alloy/config.alloy https://raw.githubusercontent.com/RaphaeldM13/Infocob-Log-Centralization/refs/heads/main/Config/config.alloy
+      ```
+    - Windows
+      Télécharger le fichier de configuration config.alloy depuis le dépôt, puis le placer dans le répertoire d’installation d’Alloy, généralement :
+      ```
+      %PROGRAMFILES%\GrafanaLabs\Alloy\
+      ```
+    - docker
 
   Le fichier récupéré doit ensuite être modifié pour correspondre à la machine :
     - Adaptation des labels à l’environnement cible
