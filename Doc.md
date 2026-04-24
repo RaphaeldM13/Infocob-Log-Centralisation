@@ -217,24 +217,8 @@ Une fois Alloy installé, il doit être configuré à l’aide du fichier config
 
   Le fichier récupéré doit ensuite être modifié pour correspondre à la machine :
     - Adaptation des labels à l’environnement cible
-
-    Les valeurs `job` et `hostname` doivent être adaptées à chaque machine afin d’identifier précisément la source des logs dans Loki.
-    ```
-    sudo nano /etc/alloy/config.alloy
-    ```
-
-    ```hcl
-    loki.process "apache_labels" {
-      forward_to = [loki.write.loki.receiver]
-
-      stage.static_labels {
-        values = {
-          job  = "<MACHINE_TYPE>",  # ex : apache, linux, windows
-          hostname = "<MACHINE_NAME>",  # nom ou identifiant de la machine
-        }
-      }
-    }
-    ```
+      Le champ `<IP_HOST>` doit être rempli avec l'ip de la machine hébergeant Loki :
+      <ins>Sous Windows</ins> les logs d'Apache doivent êtres configurés en `combined` dans le fichier `httpd.conf` afin d'avoir accès au maximum d'informations.
     - Lancement de Alloy
       ```
       sudo systemctl enable alloy
