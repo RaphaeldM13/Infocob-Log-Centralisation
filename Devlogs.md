@@ -1,3 +1,10 @@
+## 27/04/2026
+- config dashboard
+
+## 24/04/2026
+- test doc
+- Création du dasboard
+
 ## 23/04/2026
 - adaptabilité fix
 
