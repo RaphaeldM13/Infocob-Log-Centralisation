@@ -44,6 +44,11 @@ loki.process "apache_labels" {
     }
   }
 
+  stage.template {
+    source = "http_class"
+    template = "{{ if eq .http_class \"\" }}autre{{ else }}{{ .http_class }}{{ end }}"
+  }
+
   stage.static_labels {
     values = {
       os = constants.os,
