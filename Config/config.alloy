@@ -22,6 +22,30 @@ loki.source.file "apache" {
   tail_from_end = true
 }
 
+local.file_match "linux_logs" {
+  path_targets = [
+    { __path__ = "/var/log/syslog" },
+    { __path__ = "/var/log/messages" },
+    { __path__ = "/var/log/auth.log" },
+  ]
+  sync_period = "5s"
+}
+
+loki.source.file "linux_system" {
+  targets    = local.file_match.linux_logs.targets
+  forward_to = [loki.process.machine_labels.receiver]
+}
+
+loki.source.windowsevent "windows_system" {
+  eventlog_name = "System"
+  forward_to    = [loki.process.machine_labels.receiver]
+}
+
+loki.source.windowsevent "windows_app" {
+  eventlog_name = "Application"
+  forward_to    = [loki.process.machine_labels.receiver]
+}
+
 loki.process "apache_labels" {
   forward_to = [loki.write.loki.receiver]
 
@@ -56,6 +80,20 @@ loki.process "apache_labels" {
       architecture = constants.arch,
       version = constants.version,
       source = "apache",
+    }
+  }
+}
+
+loki.process "machine_labels" {
+  forward_to = [loki.write.loki.receiver]
+
+  stage.static_labels {
+    values = {
+      source = "machine",
+      os = constants.os,
+      hostname = constants.hostname,
+      architecture = constants.arch,
+      version = constants.version,
     }
   }
 }
