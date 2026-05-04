@@ -1,3 +1,10 @@
+## 04/04/2026
+- finalisation récupération logs machine windows
+- ajustements dashboards
+
+## 28/04/2026
+- Début récupération logs machine windows
+
 ## 27/04/2026
 - config dashboard
 
