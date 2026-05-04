@@ -39,11 +39,13 @@ loki.source.file "linux_system" {
 loki.source.windowsevent "windows_system" {
   eventlog_name = "System"
   forward_to    = [loki.process.machine_labels.receiver]
+  poll_interval = "5s"
 }
 
 loki.source.windowsevent "windows_app" {
   eventlog_name = "Application"
   forward_to    = [loki.process.machine_labels.receiver]
+  poll_interval = "5s"
 }
 
 loki.process "apache_labels" {
@@ -68,11 +70,6 @@ loki.process "apache_labels" {
     }
   }
 
-  stage.template {
-    source = "http_class"
-    template = "{{ if eq .http_class \"\" }}autre{{ else }}{{ .http_class }}{{ end }}"
-  }
-
   stage.static_labels {
     values = {
       os = constants.os,
@@ -87,9 +84,26 @@ loki.process "apache_labels" {
 loki.process "machine_labels" {
   forward_to = [loki.write.loki.receiver]
 
+  stage.json {
+    expressions = {
+      levelText     = "levelText",
+      event_id  = "event_id",
+    }
+  }
+
+  stage.labels {
+    values = {
+      source = "channel",
+      levelText = "levelText",
+    }
+  }
+
+  stage.label_drop {
+    values = ["channel", "computer"]
+  }
+
   stage.static_labels {
     values = {
-      source = "machine",
       os = constants.os,
       hostname = constants.hostname,
       architecture = constants.arch,
@@ -100,7 +114,7 @@ loki.process "machine_labels" {
 
 loki.write "loki" {
   endpoint {
-    url       = "http://<IP_HOST>/loki/api/v1/push"
+    url       = "http://<IP_HOST>:3100/loki/api/v1/push"
     tenant_id = "tenant1"
   }
 }
