@@ -1,3 +1,6 @@
+## 05/04/2026
+- Récupération logs machine linux
+
 ## 04/04/2026
 - finalisation récupération logs machine windows
 - ajustements dashboards
