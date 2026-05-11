@@ -22,7 +22,17 @@ loki.source.file "apache" {
   tail_from_end = true
 }
 
-loki.source.journal "linux_logs" {
+local.file_match "linux_logs" {
+  path_targets = [
+    { __path__ = "/var/log/syslog" },
+    { __path__ = "/var/log/messages" },
+    { __path__ = "/var/log/auth.log" },
+  ]
+  sync_period = "5s"
+}
+
+loki.source.file "linux_system" {
+  targets    = local.file_match.linux_logs.targets
   forward_to = [loki.process.parse_linux_logs.receiver]
 }
 
@@ -74,24 +84,13 @@ loki.process "apache_labels" {
 loki.process "parse_linux_logs" {
   forward_to = [loki.process.machine_labels.receiver]
 
-  stage.regex {
-    expression = `(?P<source>[\w-]+)(?:\[(?P<pid>\d+)\])?:\s+(?P<message>.*)`
+  stage.drop {
+    expression = `alloy\[\d+\]:`
   }
 
-  stage.template {
-    source = "levelText"
-    template = `{{- if regexMatch "(?i)(error|fail|critical|fatal)" .message -}}Erreur{{- else if regexMatch "(?i)(warn|warning|deprecated|retry)" .message -}}Avertissement{{- else if regexMatch "(?i)(success>
-  }
-
-  stage.template {
-    source = "channel"
-    template = `{{- if regexMatch "(?i)(systemd|kernel|cron)" .source -}}System{{- else if regexMatch "(?i)(ssh|nginx|apache|docker|sudo)" .source -}}Application{{- else -}}other{{- end -}}`
-  }
-
-  stage.labels {
+  stage.static_labels {
     values = {
-      source = "channel",
-      levelText = "levelText",
+      source = "Application",
     }
   }
 }
