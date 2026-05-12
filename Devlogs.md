@@ -1,3 +1,6 @@
+## 12/04/2026
+- Config alerte
+
 ## 11/04/2026
 - Config logs machine linux
 
