@@ -33,7 +33,7 @@ local.file_match "linux_logs" {
 
 loki.source.file "linux_system" {
   targets    = local.file_match.linux_logs.targets
-  forward_to = [loki.process.machine_labels.receiver]
+  forward_to = [loki.process.parse_linux_logs.receiver]
 }
 
 loki.source.windowsevent "windows_system" {
@@ -77,6 +77,20 @@ loki.process "apache_labels" {
       architecture = constants.arch,
       version = constants.version,
       source = "apache",
+    }
+  }
+}
+
+loki.process "parse_linux_logs" {
+  forward_to = [loki.process.machine_labels.receiver]
+
+  stage.drop {
+    expression = `alloy\[\d+\]:`
+  }
+
+  stage.static_labels {
+    values = {
+      source = "Application",
     }
   }
 }
