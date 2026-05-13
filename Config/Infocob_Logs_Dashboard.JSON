@@ -57,7 +57,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{source=\"apache\"}|= \"$Recherche\"",
+          "expr": "{service_name=\"unknown_service\"}|= \"$Recherche\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -139,9 +139,20 @@
         {
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{os=\"linux\"}|= \"$Recherche\"",
+          "expr": "{os=\"linux\",source=\"Application\"}|= \"$Recherche\"",
           "queryType": "range",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{os=\"linux\",source=\"System\"}|= \"$Recherche\"",
+          "queryType": "range",
+          "refId": "B"
         }
       ],
       "title": "Linux logs",
@@ -179,7 +190,7 @@
         {
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{http_class=~\"redirect|success\"}|= \"$Recherche\"",
+          "expr": "{source=\"apache\"}|= \"$Recherche\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -304,188 +315,6 @@
       ],
       "title": "Comparaison Linux-Windows",
       "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "showValues": false,
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "{http_class=\"client_error\"}"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "{http_class=\"success\"}"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "{http_class=\"client_error\"}"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": true,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 24
-      },
-      "id": 7,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.4.2",
-      "targets": [
-        {
-          "direction": "backward",
-          "editorMode": "builder",
-          "expr": "sum by(http_class) (count_over_time({http_class=\"success\"} [24h]))",
-          "queryType": "range",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "direction": "backward",
-          "editorMode": "builder",
-          "expr": "sum by(http_class) (count_over_time({http_class=\"client_error\"} [24h]))",
-          "queryType": "range",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "direction": "backward",
-          "editorMode": "builder",
-          "expr": "sum by(http_class) (count_over_time({http_class=\"redirect\"} [24h]))",
-          "queryType": "range",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "direction": "backward",
-          "editorMode": "builder",
-          "expr": "sum by(http_class) (count_over_time({http_class=\"server-error\"} [24h]))",
-          "queryType": "range",
-          "refId": "D"
-        }
-      ],
-      "title": "http_class Serie",
-      "type": "timeseries"
     }
   ],
   "preload": false,
@@ -525,13 +354,13 @@
     ]
   },
   "time": {
-    "from": "2026-04-27T03:31:00.000Z",
-    "to": "2026-04-27T09:31:00.000Z"
+    "from": "now-24h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Infocob Logs Dashboards",
   "uid": "gwxl77",
-  "version": 10,
+  "version": 2,
   "weekStart": ""
 }
