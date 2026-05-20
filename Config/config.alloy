@@ -43,11 +43,7 @@ loki.source.windowsevent "windows_system" {
 }
 
 loki.source.windowsevent "windows_app" {
-  eventlog_name = [
-    "Application",
-    "System",
-    "Security",
-  ]
+  eventlog_name = "Application"
   forward_to    = [loki.process.machine_labels.receiver]
   poll_interval = "5s"
 }
