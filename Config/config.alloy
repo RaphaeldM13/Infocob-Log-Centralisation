@@ -48,6 +48,12 @@ loki.source.windowsevent "windows_app" {
   poll_interval = "5s"
 }
 
+loki.source.windowsevent "windows_security" {
+  eventlog_name = "Security"
+  forward_to    = [loki.process.machine_labels.receiver]
+  poll_interval = "5s"
+}
+
 loki.process "apache_labels" {
   forward_to = [loki.write.loki.receiver]
 
@@ -100,9 +106,15 @@ loki.process "machine_labels" {
 
   stage.json {
     expressions = {
+      source = "source",
       levelText     = "levelText",
       event_id  = "event_id",
     }
+  }
+
+  stage.drop {
+    source = "source"
+    value = "Alloy"
   }
 
   stage.labels {
@@ -113,7 +125,7 @@ loki.process "machine_labels" {
   }
 
   stage.label_drop {
-    values = ["channel", "computer"]
+   values = ["channel", "computer"]
   }
 
   stage.static_labels {
