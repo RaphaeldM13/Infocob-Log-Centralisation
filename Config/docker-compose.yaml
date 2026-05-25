@@ -219,5 +219,5 @@ services:
     networks:
       - loki
 
-volumes:
-  grafana-storage:
+#volumes:
+#  grafana-storage:
