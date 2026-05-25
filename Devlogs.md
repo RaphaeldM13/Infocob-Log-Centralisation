@@ -1,3 +1,19 @@
+## 25/05/2026
+- config provisionning dashboard
+
+## 22/05/2026
+- correctifs log machine windows
+- config provisionning  datasource
+
+## 21/05/2026
+- correctifs log machine windows
+
+## 20/05/2026
+- correctifs log machine windows
+
+## 19/05/2026
+- correctifs mise à jour
+
 ## 18/05/2026
 - correctifs mise à jour
 - config alerte
