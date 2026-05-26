@@ -8,4 +8,5 @@ providers:
     disableDeletion: false
     editable: true
     options:
-      path: /provisioning/dashboards/Infocob_Logs_Dashboard.JSON
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true
