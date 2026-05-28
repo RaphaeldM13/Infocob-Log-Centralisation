@@ -1,3 +1,8 @@
+## 28/05/2026
+- Adaptation docker
+- Mise à jour Documentation
+- création .gitignore
+
 ## 27/04/2026
 - config dashboard
 
