@@ -12,17 +12,6 @@ Mise en place d'un système de récupération et d'exploitation de logs sur un r
 ### **Outils:**
 - Déploiement: Docker
 - Exploitation: Grafana Loki
-- Logs driver: Docker driver
 - Storage logs: S3
-- Logshipping côté node: Alloy
-- node test: Apache
-- Hyperviseur node test: Hyper-V
-
-### **Config Hyper-V:**
-- RAM: 32 GB
-- Taille: 250 GB
-- Réseau: Default Switch 
-- ISO: Ubuntu server arm64 24.04.4
-- démarrage sécurisé Certificat UEFI
-- OpenSSH activé
-- ip: 192.168.7.77
+- Logshipping et log driver côté node: Alloy
+- nodes test: Apache, linux, windows
