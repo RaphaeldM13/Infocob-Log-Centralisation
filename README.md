@@ -17,4 +17,4 @@ Mise en place d'un système de récupération et d'exploitation de logs sur un r
 - nodes test: Apache, linux, windows
 
 ## Connexion
-Connectez vous à l'UI grafana en local avec l'identifiant `admin` et lemot de passe présent dans le fichier [.env](Config/.env)
+Connectez vous à l'UI grafana en local avec l'identifiant `admin` et le mot de passe présent dans le fichier [.env](Config/.env)
