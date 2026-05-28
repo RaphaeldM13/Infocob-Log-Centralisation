@@ -15,3 +15,6 @@ Mise en place d'un système de récupération et d'exploitation de logs sur un r
 - Storage logs: Minio
 - Logshipping et log driver côté node: Alloy
 - nodes test: Apache, linux, windows
+
+## Connexion
+Connectez vous à l'UI grafana en local avec l'identifiant `admin` et lemot de passe présent dans le fichier [.env](Config/.env)
