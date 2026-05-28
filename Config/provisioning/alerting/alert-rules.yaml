@@ -77,6 +77,8 @@ groups:
                 maxDataPoints: 43200
                 refId: C
                 type: threshold
+          dashboardUid: ""
+          panelId: 0
           noDataState: NoData
           execErrState: Error
           for: 1m
@@ -157,6 +159,8 @@ groups:
                 maxDataPoints: 43200
                 refId: C
                 type: threshold
+          dashboardUid: ""
+          panelId: 0
           noDataState: NoData
           execErrState: Error
           for: 1m
@@ -235,11 +239,94 @@ groups:
                 maxDataPoints: 43200
                 refId: C
                 type: threshold
+          dashboardUid: ""
+          panelId: 0
           noDataState: NoData
           execErrState: Error
           for: 1m
-          annotations: {}
-          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: infocob logs
+    - orgId: 1
+      name: silent
+      folder: Infocob
+      interval: 1d
+      rules:
+        - uid: bfnf4vntvjk74f
+          title: No Logs
+          condition: C
+          data:
+            - refId: A
+              queryType: range
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: P8E80F9AEF21F6940
+              model:
+                editorMode: builder
+                expr: sum by(hostname) (count_over_time({service_name="unknown_service"} [24h]))
+                instant: true
+                intervalMs: 1000
+                maxDataPoints: 43200
+                queryType: range
+                refId: A
+            - refId: reducer
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: reducer
+                type: reduce
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: eq
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: reducer
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 1d
           isPaused: false
           notification_settings:
             receiver: infocob logs
