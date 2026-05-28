@@ -248,7 +248,7 @@ groups:
           notification_settings:
             receiver: infocob logs
     - orgId: 1
-      name: silent
+      name: Silent
       folder: Infocob
       interval: 1d
       rules:
