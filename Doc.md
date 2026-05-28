@@ -79,6 +79,8 @@
   ```
   https://github.com/RaphaeldM13/Infocob-Log-Centralization/tree/6d3e9af5c7dd65290c751940b2aa8c5214d4a1be/Config
   ```
+  Ce dossier contiens également les fichiers de provisionning de Loki, permettant d'importer les contact points et règles d'alertes au lancement du docker.
+  
   4. Démarrage de la stack
   Lancer l’ensemble des services via Docker Compose :
   ```
