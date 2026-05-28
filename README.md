@@ -12,6 +12,6 @@ Mise en place d'un système de récupération et d'exploitation de logs sur un r
 ### **Outils:**
 - Déploiement: Docker
 - Exploitation: Grafana Loki
-- Storage logs: S3
+- Storage logs: Minio
 - Logshipping et log driver côté node: Alloy
 - nodes test: Apache, linux, windows
