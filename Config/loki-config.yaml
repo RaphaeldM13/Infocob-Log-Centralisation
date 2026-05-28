@@ -37,6 +37,8 @@ common:
     kvstore:
       store: memberlist
 ruler:
+  enable_api: true
+  enable_alertmanager_discovery: false
   storage:
     s3:
       bucketnames: loki-ruler

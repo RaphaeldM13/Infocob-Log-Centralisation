@@ -8,7 +8,7 @@
 
   Le système repose sur une architecture de collecte distribuée des logs.
 
-  Chaque machine à superviser (serveur Apache, système Linux/Windows) embarque un agent Grafana Alloy chargé de collecter et transmettre les logs. Alloy assure la lecture des journaux locaux, leur enrichissement (labels)    et leur envoi vers une plateforme centralisée.
+  Chaque machine à superviser (serveur Apache, système Linux/Windows, réseau docker) embarque un agent Grafana Alloy chargé de collecter et transmettre les logs. Alloy assure la lecture des journaux locaux, leur enrichissement (labels)    et leur envoi vers une plateforme centralisée.
 
   Les logs sont ensuite envoyés via HTTP vers Grafana Loki, déployé dans un conteneur Docker. Loki centralise et stocke les données, en s’appuyant sur MinIO pour le stockage objet.
   Le flux de données est le suivant :
@@ -67,7 +67,7 @@
   ```
   docker plugin ls
   ```
-  En cas de désactivation du plugin :
+  S'assurer de son activation :
   ```
   docker plugin enable loki
   systemctl restart docker
@@ -77,10 +77,10 @@
   Les fichiers nécessaires au fonctionnement du système ([Docker Compose](Config/docker-compose.yaml), [Alloy](Config/alloy-local-config.yaml) et [Loki](Config/loki-config.yaml) doivent être placés dans le répertoire loki.
   Ils peuvent être récupérés directement depuis ce dépôt :
   ```
-  wget https://raw.githubusercontent.com/RaphaeldM13/Infocob-Log-Centralization/refs/heads/main/Config/docker-compose.yaml -O docker-compose.yaml
-  wget https://raw.githubusercontent.com/RaphaeldM13/Infocob-Log-Centralization/refs/heads/main/Config/alloy-local-config.yaml -O alloy-local-config.yaml
-  wget https://raw.githubusercontent.com/RaphaeldM13/Infocob-Log-Centralization/refs/heads/main/Config/loki-config.yaml -O loki-config.yaml
+  https://github.com/RaphaeldM13/Infocob-Log-Centralization/tree/6d3e9af5c7dd65290c751940b2aa8c5214d4a1be/Config
   ```
+  Ce dossier contiens également les fichiers de provisionning de Loki, permettant d'importer les contact points et règles d'alertes au lancement du docker.
+  
   4. Démarrage de la stack
   Lancer l’ensemble des services via Docker Compose :
   ```

@@ -36,7 +36,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -102,7 +102,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -123,7 +123,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -189,7 +189,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -254,7 +254,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -319,7 +319,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -384,7 +384,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",
@@ -405,7 +405,7 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "afmitms5ll0qob"
+                      "name": "P8E80F9AEF21F6940"
                     },
                     "group": "loki",
                     "kind": "DataQuery",

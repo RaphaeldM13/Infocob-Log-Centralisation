@@ -5,6 +5,27 @@ logging {
   level = "info"
 }
 
+discovery.docker "compose_containers" {
+  host             = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+discovery.relabel "docker_relabel" {
+  targets = discovery.docker.compose_containers.targets
+
+  // Exclure Alloy lui-même
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/alloy"
+    action        = "drop"
+  }
+  
+  rule {
+    source_labels = ["__meta_docker_container_image_name"]
+    target_label  = "image_name"
+  }
+}
+
 local.file_match "apache_logs" {
   path_targets = [
     { __path__ = "/var/log/apache2/*.log" },
@@ -48,10 +69,28 @@ loki.source.windowsevent "windows_app" {
   poll_interval = "5s"
 }
 
-loki.source.windowsevent "windows_security" {
-  eventlog_name = "Security"
-  forward_to    = [loki.process.machine_labels.receiver]
-  poll_interval = "5s"
+loki.source.docker "docker_containers" {
+  host           = "unix:///var/run/docker.sock"
+  targets        = discovery.docker.compose_containers.targets
+  relabel_rules  = discovery.relabel.docker_relabel.rules
+  forward_to     = [loki.process.docker_labels.receiver]
+}
+
+loki.process "docker_labels" {
+  forward_to = [loki.write.loki.receiver]
+
+  stage.labels {
+    values = {
+      container = "container_name",
+      image     = "image_name",
+    }
+  }
+
+  stage.static_labels {
+    values = {
+      source = "docker",
+    }
+  }
 }
 
 loki.process "apache_labels" {
