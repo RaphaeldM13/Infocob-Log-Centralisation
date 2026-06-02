@@ -107,6 +107,7 @@ loki.process "apache_labels" {
 
   stage.labels {
     values = {
+      ip     = "ip",
       status = "status",
       method = "method",
       path   = "path",
