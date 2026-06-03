@@ -171,7 +171,7 @@ groups:
     - orgId: 1
       name: Attack
       folder: Infocob
-      interval: 1d
+      interval: 1m
       rules:
         - uid: cfn8lydrjb8qoc
           title: Brute-Force
