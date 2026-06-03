@@ -1,3 +1,7 @@
+## 03/06/2026
+- Finition doc Config
+- Mise en forme doc
+
 ## 02/06/2026
 - Mise à Jour Doc
 
