@@ -208,11 +208,13 @@ services:
     image: chrislusf/seaweedfs
     entrypoint: ["/bin/sh", "-c"]
     command: >
-      "sleep 5 && weed shell -master=seaweedfs:9333 -filer=seaweedfs:8888 <<'EOF'
-      s3.bucket.create -name loki-data
-      s3.bucket.create -name loki-ruler
-      exit
-      EOF"
+      "sleep 10 &&
+      curl -X PUT http://seaweedfs:8333/loki-data
+      --aws-sigv4 'aws:amz:us-east-1:s3'
+      --user 'loki:supersecret' &&
+      curl -X PUT http://seaweedfs:8333/loki-ruler
+      --aws-sigv4 'aws:amz:us-east-1:s3'
+      --user 'loki:supersecret'"
     depends_on:
       seaweedfs:
         condition: service_healthy
