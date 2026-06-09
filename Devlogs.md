@@ -1,3 +1,11 @@
+## 08/05/2026
+- config service de stockage
+
+## 05/06/2026
+- transition nouveau service de stockage
+
+## 04/06/2026
+- veille service de stockage
 ## 03/06/2026
 - Finition doc Config
 - Mise en forme doc
