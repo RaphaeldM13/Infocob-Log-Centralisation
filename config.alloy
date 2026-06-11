@@ -20,20 +20,22 @@ discovery.relabel "docker_relabel" {
   }
 
   // Exclure Alloy lui-même
-  rule {
-    source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
-    target_label  = "compose_project"
-  }
-
+  
   rule {
     source_labels = ["__meta_docker_container_name"]
     regex         = "/alloy"
     action        = "drop"
   }
+
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
+    target_label  = "compose_project"
+  }
+
   
   rule {
-    source_labels = ["__meta_docker_container_image_name"]
-    target_label  = "image_name"
+    source_labels = ["__meta_docker_container_label_com_docker_compose_image"]
+    target_label  = "image_id"
   }
 }
 
@@ -82,23 +84,13 @@ loki.source.windowsevent "windows_app" {
 
 loki.source.docker "docker_containers" {
   host           = "unix:///var/run/docker.sock"
-  targets        = discovery.docker.compose_containers.targets
+  targets        = discovery.relabel.docker_relabel.output
   relabel_rules  = discovery.relabel.docker_relabel.rules
-  forward_to     = [loki.write.loki.receiver]
+  forward_to     = [loki.process.final_docker_labels.receiver]
 }
 
-//loki.process "docker_labels" {
-//  forward_to = [loki.write.loki.receiver]
-
-//  stage.static_labels {
-//    values = {
-//      source = "docker",
-//    }
-//  }
-//}
-
 loki.process "apache_labels" {
-  forward_to = [loki.write.loki.receiver]
+  forward_to = [loki.process.final_labels.receiver]
 
   stage.regex {
     expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>[-\d]+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
@@ -119,16 +111,6 @@ loki.process "apache_labels" {
       http_class = "http_class",
     }
   }
-
-  stage.static_labels {
-    values = {
-      os = constants.os,
-      hostname = constants.hostname,
-      architecture = constants.arch,
-      version = constants.version,
-      source = "apache",
-    }
-  }
 }
 
 loki.process "parse_linux_logs" {
@@ -146,7 +128,7 @@ loki.process "parse_linux_logs" {
 }
 
 loki.process "machine_labels" {
-  forward_to = [loki.write.loki.receiver]
+  forward_to = [loki.process.final_labels.receiver]
 
   stage.json {
     expressions = {
@@ -171,6 +153,23 @@ loki.process "machine_labels" {
   stage.label_drop {
    values = ["channel", "computer"]
   }
+}
+
+loki.process "final_docker_labels" {
+  forward_to = [loki.write.loki.receiver]
+
+  stage.static_labels {
+    values = {
+      os = "docker",
+      hostname = constants.hostname,
+      architecture = constants.arch,
+      version = constants.version,
+    }
+  }
+}
+
+loki.process "final_labels" {
+  forward_to = [loki.write.loki.receiver]
 
   stage.static_labels {
     values = {
@@ -184,7 +183,7 @@ loki.process "machine_labels" {
 
 loki.write "loki" {
   endpoint {
-    url       = "http://192.168.7.60:3100/loki/api/v1/push"
+    url       = "http://<IP_HOST>:3100/loki/api/v1/push"
     tenant_id = "tenant1"
   }
 }
