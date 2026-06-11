@@ -13,7 +13,18 @@ discovery.docker "compose_containers" {
 discovery.relabel "docker_relabel" {
   targets = discovery.docker.compose_containers.targets
 
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
+    regex         = env("ALLOY_PROJECT")
+    action        = "keep"
+  }
+
   // Exclure Alloy lui-même
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
+    target_label  = "compose_project"
+  }
+
   rule {
     source_labels = ["__meta_docker_container_name"]
     regex         = "/alloy"
@@ -78,13 +89,6 @@ loki.source.docker "docker_containers" {
 
 loki.process "docker_labels" {
   forward_to = [loki.write.loki.receiver]
-
-  stage.labels {
-    values = {
-      container = "container_name",
-      image     = "image_name",
-    }
-  }
 
   stage.static_labels {
     values = {
