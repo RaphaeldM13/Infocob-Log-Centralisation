@@ -84,18 +84,18 @@ loki.source.docker "docker_containers" {
   host           = "unix:///var/run/docker.sock"
   targets        = discovery.docker.compose_containers.targets
   relabel_rules  = discovery.relabel.docker_relabel.rules
-  forward_to     = [loki.process.docker_labels.receiver]
+  forward_to     = [loki.write.loki.receiver]
 }
 
-loki.process "docker_labels" {
-  forward_to = [loki.write.loki.receiver]
+//loki.process "docker_labels" {
+//  forward_to = [loki.write.loki.receiver]
 
-  stage.static_labels {
-    values = {
-      source = "docker",
-    }
-  }
-}
+//  stage.static_labels {
+//    values = {
+//      source = "docker",
+//    }
+//  }
+//}
 
 loki.process "apache_labels" {
   forward_to = [loki.write.loki.receiver]
@@ -184,7 +184,7 @@ loki.process "machine_labels" {
 
 loki.write "loki" {
   endpoint {
-    url       = "http://<IP_HOST>:3100/loki/api/v1/push"
+    url       = "http://192.168.7.60:3100/loki/api/v1/push"
     tenant_id = "tenant1"
   }
 }
