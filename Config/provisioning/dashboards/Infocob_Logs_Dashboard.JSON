@@ -4,21 +4,21 @@
   "metadata": {
     "name": "adv5m67",
     "namespace": "default",
-    "uid": "262442ca-4b61-4d51-bdb6-50828f9b99f0",
-    "resourceVersion": "1780400910788007",
-    "generation": 11,
-    "creationTimestamp": "2026-05-28T12:51:39Z",
+    "uid": "ce6cbcbf-cd8e-4717-aea7-2f0940e4c2d1",
+    "resourceVersion": "1781190582144016",
+    "generation": 5,
+    "creationTimestamp": "2026-06-09T08:24:48Z",
     "labels": {
-      "grafana.app/deprecatedInternalID": "1835896533303296"
+      "grafana.app/deprecatedInternalID": "1613793964752896"
     },
     "annotations": {
-      "grafana.app/createdBy": "user:afnfe74dc2waoa",
-      "grafana.app/folder": "efnfe78pm8740a",
-      "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
-      "grafana.app/updatedBy": "user:afnfe74dc2waoa",
-      "grafana.app/updatedTimestamp": "2026-06-02T11:48:30Z",
+      "grafana.app/createdBy": "user:afoljs8rvjv9cf",
+      "grafana.app/folder": "bfoljsbgn49hce",
+      "grafana.app/saved-from-ui": "Grafana v13.0.2 (3fcdbc5a)",
+      "grafana.app/updatedBy": "user:afoljs8rvjv9cf",
+      "grafana.app/updatedTimestamp": "2026-06-11T15:09:42Z",
       "grafana.app/folderTitle": "Infocob",
-      "grafana.app/folderUrl": "/dashboards/f/efnfe78pm8740a/infocob"
+      "grafana.app/folderUrl": "/dashboards/f/bfoljsbgn49hce/infocob"
     }
   },
   "spec": {
@@ -86,7 +86,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -173,7 +173,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -239,7 +239,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -288,7 +288,7 @@
                       "spec": {
                         "direction": "backward",
                         "editorMode": "code",
-                        "expr": "{http_class=\"success\"}",
+                        "expr": "{http_class=\"success\"}|= \"$Recherche\"",
                         "queryType": "range"
                       }
                     },
@@ -308,8 +308,8 @@
                       },
                       "spec": {
                         "direction": "backward",
-                        "editorMode": "builder",
-                        "expr": "{status=\"200\"}",
+                        "editorMode": "code",
+                        "expr": "{status=\"200\"}|= \"$Recherche\"",
                         "queryType": "range"
                       }
                     },
@@ -325,7 +325,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -373,8 +373,8 @@
                       },
                       "spec": {
                         "direction": "backward",
-                        "editorMode": "builder",
-                        "expr": "{levelText=\"Erreur\"}",
+                        "editorMode": "code",
+                        "expr": "{levelText=\"Erreur\"}|= \"$Recherche\"",
                         "queryType": "range"
                       }
                     },
@@ -394,8 +394,8 @@
                       },
                       "spec": {
                         "direction": "backward",
-                        "editorMode": "builder",
-                        "expr": "{service_name=\"unknown_service\"} | status =~ `[45]\\d{2}`",
+                        "editorMode": "code",
+                        "expr": "{service_name=\"unknown_service\"} | status =~ `[45]\\d{2}`|= \"$Recherche\"",
                         "queryType": "range"
                       }
                     },
@@ -411,7 +411,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -460,32 +460,11 @@
                       "spec": {
                         "direction": "backward",
                         "editorMode": "builder",
-                        "expr": "sum by(os) (count_over_time({os=\"linux\"} [24h]))",
+                        "expr": "sum by(os) (count_over_time({service_name=\"unknown_service\"} [24h]))",
                         "queryType": "range"
                       }
                     },
                     "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "loki",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "P8E80F9AEF21F6940"
-                      },
-                      "spec": {
-                        "direction": "backward",
-                        "editorMode": "builder",
-                        "expr": "sum by(os) (count_over_time({os=\"windows\"} [24h]))",
-                        "queryType": "range"
-                      }
-                    },
-                    "refId": "B",
                     "hidden": false
                   }
                 }
@@ -497,7 +476,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "piechart",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "displayLabels": [
@@ -510,7 +489,9 @@
                 },
                 "pieType": "pie",
                 "reduceOptions": {
-                  "calcs": [],
+                  "calcs": [
+                    "last"
+                  ],
                   "fields": "",
                   "values": false
                 },
@@ -563,8 +544,8 @@
                       },
                       "spec": {
                         "direction": "backward",
-                        "editorMode": "builder",
-                        "expr": "{source=\"docker\"}",
+                        "editorMode": "code",
+                        "expr": "{os=\"docker\"}|= \"$Recherche\"",
                         "queryType": "range"
                       }
                     },
@@ -580,7 +561,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.2",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -594,7 +575,7 @@
                 "sortOrder": "Descending",
                 "timestampResolution": "ms",
                 "unwrappedColumns": false,
-                "wrapLogMessage": false
+                "wrapLogMessage": true
               },
               "fieldConfig": {
                 "defaults": {},
