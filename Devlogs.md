@@ -1,3 +1,15 @@
+## 12/05/2026
+- vérif sécurité
+
+## 11/05/2026
+- fix docker issue
+
+## 10/05/2026
+- fix docker issue
+
+## 09/05/2026
+- config service de stockage
+
 ## 08/05/2026
 - config service de stockage
 

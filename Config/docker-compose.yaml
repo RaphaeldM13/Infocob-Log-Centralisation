@@ -7,7 +7,6 @@ services:
     image: grafana/loki:latest
     command: "-config.file=/etc/loki/config.yaml -target=read"
     ports:
-      - 3101:3100
       - 7946
       - 9095
     volumes:
@@ -30,7 +29,6 @@ services:
     image: grafana/loki:latest
     command: "-config.file=/etc/loki/config.yaml -target=write"
     ports:
-      - 3102:3100
       - 7946
       - 9095
     volumes:
@@ -47,21 +45,8 @@ services:
     networks:
       <<: *loki-dns
 
-  alloy:
-    image: grafana/alloy:latest
-    volumes:
-      - ./alloy-local-config.yaml:/etc/alloy/config.alloy:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    command:  run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
-    ports:
-      - 12345:12345
-    depends_on:
-      - loki-gateway
-    networks:
-      - loki
-
   grafana:
-    image: grafana/grafana:latest
+    image: dhi.io/grafana:13
     volumes:
       - grafana-storage:/var/lib/grafana
       - ./provisioning/datasources:/etc/grafana/provisioning/datasources:ro
@@ -110,64 +95,12 @@ services:
     
 
   loki-gateway:
-    image: nginx:latest
+    image: dhi.io/nginx:1.29.3-debian13
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - loki-read
       - loki-write
-    entrypoint:
-      - sh
-      - -euc
-      - |
-        cat <<EOF > /etc/nginx/nginx.conf
-        user  nginx;
-        worker_processes  5;  ## Default: 1
-
-        events {
-          worker_connections   1000;
-        }
-
-        http {
-          resolver 127.0.0.11;
-
-          server {
-            listen             3100;
-
-            location = / {
-              return 200 'OK';
-              auth_basic off;
-            }
-
-            location = /api/prom/push {
-              proxy_pass       http://loki-write:3100\$$request_uri;
-            }
-
-            location = /api/prom/tail {
-              proxy_pass       http://loki-read:3100\$$request_uri;
-              proxy_set_header Upgrade \$$http_upgrade;
-              proxy_set_header Connection "upgrade";
-            }
-
-            location ~ /api/prom/.* {
-              proxy_pass       http://loki-read:3100\$$request_uri;
-            }
-
-            location = /loki/api/v1/push {
-              proxy_pass       http://loki-write:3100\$$request_uri;
-            }
-
-            location = /loki/api/v1/tail {
-              proxy_pass       http://loki-read:3100\$$request_uri;
-              proxy_set_header Upgrade \$$http_upgrade;
-              proxy_set_header Connection "upgrade";
-            }
-
-            location ~ /loki/api/.* {
-              proxy_pass       http://loki-read:3100\$$request_uri;
-            }
-          }
-        }
-        EOF
-        /docker-entrypoint.sh nginx -g "daemon off;"
     ports:
       - "3100:3100"
     healthcheck:
@@ -181,8 +114,6 @@ services:
   seaweedfs:
     image: chrislusf/seaweedfs
     command: 'server -s3 -dir=/data -ip.bind=0.0.0.0 -s3.config=/etc/seaweedfs/s3.json'
-    ports:
-      - 8333:8333
     volumes:
       - seaweedfs-data:/data
       - ./s3.json:/etc/seaweedfs/s3.json:ro
