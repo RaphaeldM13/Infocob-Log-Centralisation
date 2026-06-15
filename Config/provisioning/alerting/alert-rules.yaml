@@ -14,7 +14,7 @@ groups:
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: P8E80F9AEF21F6940
+              datasourceUid: loki-datasource
               model:
                 editorMode: builder
                 expr: sum by(http_class) (count_over_time({http_class="server_error"} [5m]))
@@ -96,7 +96,7 @@ groups:
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: P8E80F9AEF21F6940
+              datasourceUid: loki-datasource
               model:
                 editorMode: builder
                 expr: sum by(ip) (count_over_time({http_class="client_error"} [5m]))
@@ -182,7 +182,7 @@ groups:
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: P8E80F9AEF21F6940
+              datasourceUid: loki-datasource
               model:
                 editorMode: builder
                 expr: sum by(hostname) (count_over_time({service_name="unknown_service"} |= `authentication failure` or `4625` [10m]))
@@ -257,7 +257,7 @@ groups:
     - orgId: 1
       name: Silent
       folder: Infocob
-      interval: 1d
+      interval: 12h
       rules:
         - uid: bfnf4vntvjk74f
           title: No Logs
@@ -266,9 +266,9 @@ groups:
             - refId: A
               queryType: range
               relativeTimeRange:
-                from: 600
+                from: 86400
                 to: 0
-              datasourceUid: P8E80F9AEF21F6940
+              datasourceUid: loki-datasource
               model:
                 editorMode: builder
                 expr: sum by(hostname) (count_over_time({service_name="unknown_service"} [24h]))

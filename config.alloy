@@ -82,6 +82,13 @@ loki.source.windowsevent "windows_app" {
   poll_interval = "5s"
 }
 
+loki.source.windowsevent "windows_security" {
+  eventlog_name = "Security"
+  forward_to    = [loki.process.machine_labels.receiver]
+  poll_interval = "5s"
+}
+
+
 loki.source.docker "docker_containers" {
   host           = "unix:///var/run/docker.sock"
   targets        = discovery.relabel.docker_relabel.output
