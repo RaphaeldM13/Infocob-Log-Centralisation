@@ -692,7 +692,7 @@
       "timezone": "browser",
       "from": "now-24h",
       "to": "now",
-      "autoRefresh": "",
+      "autoRefresh": "5m",
       "autoRefreshIntervals": [
         "5s",
         "10s",

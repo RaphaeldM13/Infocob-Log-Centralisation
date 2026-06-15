@@ -5,4 +5,4 @@ contactPoints:
       - uid: email-infocob
         type: email
         settings:
-          addresses: infocob.logs.alert@gmail.com
+          addresses: <e-mail-address>

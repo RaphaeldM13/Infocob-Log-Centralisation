@@ -118,6 +118,12 @@ loki.process "apache_labels" {
       http_class = "http_class",
     }
   }
+
+  stage.static_labels {
+    values = {
+      source = "Apache",
+    }
+  }
 }
 
 loki.process "parse_linux_logs" {
