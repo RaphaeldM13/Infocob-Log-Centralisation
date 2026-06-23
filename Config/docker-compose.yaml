@@ -4,7 +4,7 @@ networks:
 
 services:
   loki-read:
-    image: dhi.io/loki:3.7
+    image: dhi.io/loki:3
     command: "-config.file=/etc/loki/config.yaml -target=read"
     ports:
       - 7946
@@ -26,7 +26,7 @@ services:
           - loki
 
   loki-write:
-    image: dhi.io/loki:3.7
+    image: dhi.io/loki:3
     command: "-config.file=/etc/loki/config.yaml -target=write"
     ports:
       - 7946
@@ -75,7 +75,7 @@ services:
     networks:
       - loki
   loki-backend:
-    image: dhi.io/loki:3.7
+    image: dhi.io/loki:3
     volumes:
       - ./loki-config.yaml:/etc/loki/config.yaml
     ports:
@@ -95,7 +95,7 @@ services:
     
 
   loki-gateway:
-    image: dhi.io/nginx:1.29.3-debian13
+    image: dhi.io/nginx:1-alpine
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
