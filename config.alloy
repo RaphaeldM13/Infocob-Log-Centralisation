@@ -100,7 +100,7 @@ loki.process "apache_labels" {
   forward_to = [loki.process.final_labels.receiver]
 
   stage.regex {
-    expression = `(?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>[-\d]+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
+    expression = `(?P<vhost_ip>[\d.]+):(?P<vhost_port>[\d.]+) (?P<ip>[\d.]+) - - \[(?P<timestamp>[^\]]+)\] "(?:(?P<method>\w+) (?P<path>[^ ]+) (?P<protocol>[^"]+)|(?P<request>-))" (?P<status>\d+) (?P<bytes>[-\d]+)(?:\s+"(?P<referer>[^"]*)"\s+"(?P<user_agent>[^"]*)")?`
   }
 
   stage.template {
@@ -110,6 +110,8 @@ loki.process "apache_labels" {
 
   stage.labels {
     values = {
+      vhost_ip= "vhost_ip",
+      vhost_port = "vhost_port",
       ip     = "ip",
       status = "status",
       method = "method",
